@@ -37,27 +37,27 @@ public class walletResource {
     //     return WalletRepository.findWalletByUserId(userId);
     // }
 
-    @PostMapping("/addmoney")
-    public void addTransaction(@RequestBody addMoneyTransaction data){        
-        users user = UserRepository.findBySessionKey(data.getSessionId());
-        if(user == null) return;
+    // @PostMapping("/addmoney")
+    // public void addTransaction(@RequestBody addMoneyTransaction data){        
+    //     users user = UserRepository.findBySessionKey(data.getSessionId());
+    //     if(user == null) return;
 
-        transaction curr =  transaction.builder()
-                    .reason("Add to wallet")
-                    .amount(data.getAmount())
-                    .status(data.getStatus())
-                    .direction("in")
-                    .timestamp(new Date())
-                    .build();  
+    //     transaction curr =  transaction.builder()
+    //                 .reason("Add to wallet")
+    //                 .amount(data.getAmount())
+    //                 .status(data.getStatus())
+    //                 .direction("in")
+    //                 .timestamp(new Date())
+    //                 .build();  
                                       
-        wallet userWallet = WalletRepository.findWalletByFUserId(data.getUserId());
-        List<transaction> temp = userWallet.getTransaction();            
-        temp.add(curr);
-        if(data.getStatus().equals(true)) userWallet.setBalance(userWallet.getBalance()+data.getAmount());
-        WalletRepository.save(userWallet); 
+    //     wallet userWallet = WalletRepository.findWalletByFUserId(data.getUserId());
+    //     List<transaction> temp = userWallet.getTransaction();            
+    //     temp.add(curr);
+    //     if(data.getStatus().equals(true)) userWallet.setBalance(userWallet.getBalance()+data.getAmount());
+    //     WalletRepository.save(userWallet); 
             
                  
-    }   
+    // }   
 
 
     @PostMapping("/addwallet")
