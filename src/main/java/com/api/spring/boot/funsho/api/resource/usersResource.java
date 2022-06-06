@@ -67,7 +67,8 @@ public class usersResource {
     //     return new ResponseEntity<String>(String.format("Listed %d headers", headers.size()), HttpStatus.OK);
     // }
 
-    @GetMapping("/users")
+    
+    @GetMapping("/users")   // Return all Users
     public MappingJacksonValue findAll()
     {        
         MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findAll());
@@ -75,7 +76,7 @@ public class usersResource {
         return mapping;
     }
 
-    @GetMapping("/getuser/{sessionKey}")
+    @GetMapping("/users/{sessionKey}") // Return one user
     public MappingJacksonValue findUposingSessonKey(@PathVariable String sessionKey)
     {
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
@@ -88,7 +89,7 @@ public class usersResource {
        
     }
 
-    @PostMapping("/users")
+    @PostMapping("/users") // Create new user
     public MappingJacksonValue saveUsers(@RequestBody users user){
 
         UserRepository.save(user);
@@ -114,7 +115,7 @@ public class usersResource {
         
     }
 
-    @PostMapping("/updateuser")
+    @RequestMapping(value = "/users", method = RequestMethod.PUT)  // Update existing user
     public void updateUser(@RequestBody users user){
         users found = UserRepository.findBySessionKey(user.getSessionKey());
         user.setPassword(found.getPassword());
@@ -122,21 +123,8 @@ public class usersResource {
         UserRepository.save(user);
     }
 
-    @PostMapping("/updatepass")
-    public void updatePassword(@RequestBody changePassword newPass){
-        users user = UserRepository.findBySessionKey(newPass.getSessionId()) ;
 
-        if(!user.getPassword().equals(newPass.getOldPassword())){
-            throw new oldPasswordWrong("Old Password Does");
-        }
-
-        user.setPassword(newPass.getPassword());
-        UserRepository.save(user);
-    }
-
-
-
-    @PostMapping("/auth")
+    @PostMapping("/users/login") // Login user
     public MappingJacksonValue authUsers(@RequestBody @NotNull login user) throws Exception {
         users found = UserRepository.findByEmail(user.getEmail());
         if(found==null){

@@ -36,8 +36,8 @@ public class users {
     String password;
 
     String username;
+    
 
-    String place;
     @OneToOne(
         mappedBy = "user"
     )
