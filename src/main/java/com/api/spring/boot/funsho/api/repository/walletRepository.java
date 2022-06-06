@@ -11,11 +11,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 @CrossOrigin
 public interface walletRepository extends JpaRepository<wallet,Long>{
 
-    // public wallet findWalletByUserId(Long userId);
+    @Query("select w from wallet w where w.user.id = ?1")
+    wallet findByUserId(long userId);
 
-    @Query(
-        value = "select * from wallet where user_id=?1",
-        nativeQuery = true
-    )
-    wallet findWalletByFUserId(Long userId);
 }

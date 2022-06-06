@@ -5,6 +5,7 @@ import java.util.Date;
 // import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transaction;
 
 import com.api.spring.boot.funsho.api.dto.users.createUser;
 import com.api.spring.boot.funsho.api.dto.users.updateUser;
@@ -15,6 +16,7 @@ import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
 import com.api.spring.boot.funsho.api.exceptions.userNotFoundException;
 import com.api.spring.boot.funsho.api.repository.loginDataRepository;
+import com.api.spring.boot.funsho.api.repository.transactionRepository;
 import com.api.spring.boot.funsho.api.repository.userRepository;
 import com.api.spring.boot.funsho.api.repository.walletRepository;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
@@ -39,11 +41,14 @@ public class usersResource {
     @Autowired
     loginDataRepository LoginDataRepository;
 
-
     @Autowired
-    public void setRequest(HttpServletRequest request) {
-        this.request = request;
-    }
+    transactionRepository TransactionRepository;
+
+
+    // @Autowired
+    // public void setRequest(HttpServletRequest request) {
+    //     this.request = request;
+    // }
 
 
     // @GetMapping("/hello")
@@ -141,7 +146,23 @@ public class usersResource {
 
     @RequestMapping(value = "/users/{sessionKey}", method = RequestMethod.DELETE)  // Delete existing user
     public void deleteUser(@PathVariable String sessionKey){
-        users found = UserRepository.findBySessionKey(sessionKey);
+
+        // Get all obj to delete
+        users found = UserRepository.findBySessionKey(sessionKey);        
+        long userId = found.getUserId();        
+        loginData foundLoginData = LoginDataRepository.findByUserId(userId);
+        wallet foundWallet = WalletRepository.findByUserId(userId);
+        
+        // Delete wallet data
+        
+
+        // Delete all found data of user
+        TransactionRepository.deleteByWalletId(foundWallet.getWalletId());
+        WalletRepository.delete(foundWallet);
+        LoginDataRepository.delete(foundLoginData);
+        UserRepository.delete(found);
+
+
         UserRepository.delete(found);
     }
 
