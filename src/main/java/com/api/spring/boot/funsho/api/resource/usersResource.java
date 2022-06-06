@@ -6,13 +6,12 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.api.spring.boot.funsho.api.dto.users.updateUser;
 import com.api.spring.boot.funsho.api.entity.users;
-import com.api.spring.boot.funsho.api.entity.auth.changePassword;
 import com.api.spring.boot.funsho.api.entity.auth.login;
 import com.api.spring.boot.funsho.api.entity.auth.loginData;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
-import com.api.spring.boot.funsho.api.exceptions.oldPasswordWrong;
 import com.api.spring.boot.funsho.api.exceptions.userNotFoundException;
 import com.api.spring.boot.funsho.api.repository.loginDataRepository;
 import com.api.spring.boot.funsho.api.repository.userRepository;
@@ -116,13 +115,23 @@ public class usersResource {
     }
 
     @RequestMapping(value = "/users", method = RequestMethod.PUT)  // Update existing user
-    public void updateUser(@RequestBody users user){
-        users found = UserRepository.findBySessionKey(user.getSessionKey());
-        user.setPassword(found.getPassword());
-        System.out.println(user.toString());
-        UserRepository.save(user);
+    public void updateUser(@RequestBody updateUser updatingUser){
+        if(updatingUser.getChangePassword()){
+            users found = UserRepository.findBySessionKey(updatingUser.getSessionKey());
+            found.setPassword(updatingUser.getPassword());            
+            UserRepository.save(found);
+        }else{
+            users found = UserRepository.findBySessionKey(updatingUser.getSessionKey());
+            found.setFname(updatingUser.getFname());
+            found.setLname(updatingUser.getLname());
+            found.setDob(updatingUser.getDob());
+            found.setEmail(updatingUser.getEmail());
+            found.setPhNumber(updatingUser.getPhNumber());            
+            found.setUsername(updatingUser.getUsername());
+            UserRepository.save(found);
+        }
+        
     }
-
 
     @PostMapping("/users/login") // Login user
     public MappingJacksonValue authUsers(@RequestBody @NotNull login user) throws Exception {
