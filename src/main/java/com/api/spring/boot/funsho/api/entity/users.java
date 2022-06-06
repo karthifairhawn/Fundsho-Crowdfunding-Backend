@@ -1,5 +1,6 @@
 package com.api.spring.boot.funsho.api.entity;
 
+import com.api.spring.boot.funsho.api.dto.users.createUser;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
 import com.fasterxml.jackson.annotation.JsonFilter;
 import lombok.AllArgsConstructor;
@@ -21,6 +22,17 @@ import java.util.Date;
 @JsonFilter("userFilter")
 public class users {
 
+    public users(createUser newUser) {
+        this.fname = newUser.getFname();
+        this.lname = newUser.getLname();
+        this.email = newUser.getEmail();
+        this.password = newUser.getPassword();
+        this.phNumber = newUser.getPhNumber();
+        this.dob = newUser.getDob();
+        this.username = newUser.getUsername();        
+    }
+
+
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
     Long userId;
@@ -30,16 +42,14 @@ public class users {
     Date dob;
     String email;
     String phNumber;
-
     String sessionKey;
-
     String password;
-
     String username;
     
 
     @OneToOne(
         mappedBy = "user"
     )
+
     private wallet Wallet;
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.api.spring.boot.funsho.api.dto.users.createUser;
 import com.api.spring.boot.funsho.api.dto.users.updateUser;
 import com.api.spring.boot.funsho.api.entity.users;
 import com.api.spring.boot.funsho.api.entity.auth.login;
@@ -89,27 +90,30 @@ public class usersResource {
     }
 
     @PostMapping("/users") // Create new user
-    public MappingJacksonValue saveUsers(@RequestBody users user){
+    public MappingJacksonValue saveUsers(@RequestBody createUser newUserInfo){
 
-        UserRepository.save(user);
-        users newUser = UserRepository.findByEmail(user.getEmail());
+        // Save new user to database
+        users newUser = new users(newUserInfo);
+        UserRepository.save(newUser);        
 
+        // Login data creation for new user
         loginData newLoginData = loginData.builder()
                                 .userId(newUser.getUserId())                                
                                 .build();
         LoginDataRepository.save(newLoginData);
 
-        MappingJacksonValue mapping = new MappingJacksonValue(newUser);
-        mapping.setFilters(privateUserFilter());
-        
-
-        wallet newWallet = wallet.builder()
+        // Wallet data creation for new user
+        wallet newUserWallet = wallet.builder()
                             .Balance(0l)
                             .user(newUser)
                             .Transaction(new ArrayList<transaction>())
                             .build();
 
-        WalletRepository.save(newWallet);
+        WalletRepository.save(newUserWallet);
+
+        // returning the new user
+        MappingJacksonValue mapping = new MappingJacksonValue(newUser);
+        mapping.setFilters(privateUserFilter());
         return mapping;
         
     }

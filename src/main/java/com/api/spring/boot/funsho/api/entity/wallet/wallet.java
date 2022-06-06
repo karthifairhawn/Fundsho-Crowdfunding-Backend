@@ -26,7 +26,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Data
 @Builder
-public class wallet {
+public class wallet {        
     
     @Id
     @GeneratedValue(strategy= GenerationType.AUTO)
