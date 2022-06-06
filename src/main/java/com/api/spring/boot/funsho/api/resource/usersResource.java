@@ -67,28 +67,6 @@ public class usersResource {
     //     return new ResponseEntity<String>(String.format("Listed %d headers", headers.size()), HttpStatus.OK);
     // }
 
-    
-    @GetMapping("/users")   // Return all Users
-    public MappingJacksonValue findAll()
-    {        
-        MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findAll());
-        mapping.setFilters(publicUserFilter());
-        return mapping;
-    }
-
-    @GetMapping("/users/{sessionKey}") // Return one user
-    public MappingJacksonValue findUposingSessonKey(@PathVariable String sessionKey)
-    {
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","dob","email","phNumber","username","userId","sessionKey","place"
-    );
-        FilterProvider filters = new SimpleFilterProvider().addFilter("privateFilter", filter);                
-        MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));
-        mapping.setFilters(privateUserFilter());
-        return mapping;
-       
-    }
-
     @PostMapping("/users") // Create new user
     public MappingJacksonValue saveUsers(@RequestBody createUser newUserInfo){
 
@@ -108,8 +86,8 @@ public class usersResource {
                             .user(newUser)
                             .Transaction(new ArrayList<transaction>())
                             .build();
-
         WalletRepository.save(newUserWallet);
+        
 
         // returning the new user
         MappingJacksonValue mapping = new MappingJacksonValue(newUser);
@@ -117,6 +95,29 @@ public class usersResource {
         return mapping;
         
     }
+
+    
+    @GetMapping("/users")   // Return all Users
+    public MappingJacksonValue findAll()
+    {        
+        MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findAll());
+        mapping.setFilters(publicUserFilter());
+        return mapping;
+    }
+
+    @GetMapping("/users/{sessionKey}") // Return one user
+    public MappingJacksonValue findUsingSessionKey(@PathVariable String sessionKey)
+    {
+        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
+            "fname","lname","dob","email","phNumber","username","userId","sessionKey","place"
+    );
+        FilterProvider filters = new SimpleFilterProvider().addFilter("privateFilter", filter);                
+        MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));
+        mapping.setFilters(privateUserFilter());
+        return mapping;
+       
+    }
+
 
     @RequestMapping(value = "/users", method = RequestMethod.PUT)  // Update existing user
     public void updateUser(@RequestBody updateUser updatingUser){
@@ -136,6 +137,14 @@ public class usersResource {
         }
         
     }
+
+
+    @RequestMapping(value = "/users/{sessionKey}", method = RequestMethod.DELETE)  // Delete existing user
+    public void deleteUser(@PathVariable String sessionKey){
+        users found = UserRepository.findBySessionKey(sessionKey);
+        UserRepository.delete(found);
+    }
+
 
     @PostMapping("/users/login") // Login user
     public MappingJacksonValue authUsers(@RequestBody @NotNull login user) throws Exception {
