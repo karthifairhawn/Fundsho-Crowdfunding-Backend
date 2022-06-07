@@ -5,6 +5,7 @@ import java.util.List;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 // import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -19,6 +20,8 @@ public interface usersRequestRepository extends JpaRepository<usersRequest,Long>
 
     List<usersRequest> findByUserIdNot(long id, Pageable pageFormat);    
     
-    Page<usersRequest> findAll(Pageable pageFormat);    
+    Page<usersRequest> findAll(Pageable pageFormat);
+
+    Page<usersRequest> findAllByFeatured(boolean b, PageRequest of);    
     
 }

@@ -72,13 +72,14 @@ public class usersRequestResource {
     }
     
     @GetMapping("/requests") 
-    public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size){
-
-        if(page == 0 || size == 0) return UsersRequestRepository.findAll();
+    public Page<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){
         
-        Pageable pageFormat = PageRequest.of(page, size, Sort.by("requestId").descending());    
-        Page<usersRequest>  res = UsersRequestRepository.findAll(pageFormat);  
-        return res.getContent();            
+        if(featured){
+            return UsersRequestRepository.findAllByFeatured(true, PageRequest.of(page, size, Sort.by("votes").descending()));
+        }
+        else{
+            return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes").descending()));
+        }           
     } 
 
 
@@ -89,16 +90,8 @@ public class usersRequestResource {
     }
 
 
-    @GetMapping("/requests/featured/{page}/{size}")
-    public List<usersRequest> getUsersRequests(){
-        Pageable firstPage = PageRequest.of(0, 3, Sort.by("amountRecieved").descending());
-        List<usersRequest>  page = UsersRequestRepository.findAll(firstPage).getContent();        
-        return page;
-    }    
-
-
     @PostMapping("/requests/{id}/donate")
-    public wallet donateToRequest(@RequestBody donateRequest request){
+    public wallet donateToRequest(@RequestBody donateRequest request,@PathVariable("id") Long id){
 
         
         users handlingUser = UserRepository.findBySessionKey(request.getSessionId());
