@@ -139,7 +139,7 @@ public class usersResource {
     }
 
     @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)  // Delete existing user
-    public void deleteUser(@RequestParam String sessionKey,@PathVariable Long id){
+    public void deleteUser(@RequestParam String sessionKey,@PathVariable Long   id){
 
         users user = UserRepository.findByUserId(id);
         if(user==null) throw new userNotFoundException("User Not Found");

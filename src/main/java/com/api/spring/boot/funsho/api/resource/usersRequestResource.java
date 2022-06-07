@@ -119,7 +119,7 @@ public class usersRequestResource {
     }
     
     @RequestMapping(value ="/requests/{id}", method = RequestMethod.DELETE)
-    public void deleteUsersRequests(@PathVariable("id") Long id,@RequestParam("key") String sessionKey){
+    public void deleteUsersRequests(@PathVariable("id") Long id,@RequestParam("sessionKey") String sessionKey){
 
         users user = UserRepository.findBySessionKey(sessionKey);
         usersRequest usersRequest = UsersRequestRepository.findByRequestId(id);

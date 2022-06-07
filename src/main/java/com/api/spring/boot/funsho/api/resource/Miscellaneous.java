@@ -48,8 +48,7 @@ public class Miscellaneous {
 
     @GetMapping("/files")
     public ResponseEntity<String[]> getListFiles() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new java.io.File(folderPath).list());
+        return ResponseEntity.status(HttpStatus.OK).body(new java.io.File(folderPath).list());
     }
 
     // Save File Ends...
