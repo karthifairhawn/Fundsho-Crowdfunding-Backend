@@ -110,7 +110,7 @@ public class usersResource {
         return mapping;
     }
 
-    @GetMapping("/users/{id}") // Return user by id
+    @GetMapping("/users/user/{id}") // Return user by id
     public MappingJacksonValue findById(@PathVariable Long id)
     {
         users user = UserRepository.findByUserId(id);
@@ -120,7 +120,7 @@ public class usersResource {
             mapping.setFilters(publicUserFilter());
             return mapping;            
         }
-        
+
     }
 
     @GetMapping("/users/{sessionKey}") // Return one user
