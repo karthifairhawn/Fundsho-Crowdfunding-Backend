@@ -110,6 +110,19 @@ public class usersResource {
         return mapping;
     }
 
+    @GetMapping("/users/{id}") // Return user by id
+    public MappingJacksonValue findById(@PathVariable Long id)
+    {
+        users user = UserRepository.findByUserId(id);
+        if(user==null) throw new userNotFoundException("User Not Found");
+        else{
+            MappingJacksonValue mapping = new MappingJacksonValue(user);
+            mapping.setFilters(publicUserFilter());
+            return mapping;            
+        }
+        
+    }
+
     @GetMapping("/users/{sessionKey}") // Return one user
     public MappingJacksonValue findUsingSessionKey(@PathVariable String sessionKey)
     {
@@ -206,7 +219,7 @@ public class usersResource {
     public FilterProvider publicUserFilter(){
        
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","email","username"
+            "fname","lname","email","username","userId"
         );
         FilterProvider filters = new SimpleFilterProvider().addFilter("userFilter", filter);        
         return filters;
