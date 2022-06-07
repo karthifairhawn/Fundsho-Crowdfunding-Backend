@@ -22,6 +22,6 @@ public interface usersRequestRepository extends JpaRepository<usersRequest,Long>
     
     Page<usersRequest> findAll(Pageable pageFormat);
 
-    Page<usersRequest> findAllByFeatured(boolean b, PageRequest of);    
+    
     
 }
