@@ -60,13 +60,6 @@ public class usersRequestResource {
         return UsersRequestRepository.save(obj);
     }
 
-
-    @GetMapping("/requests")
-    public List<usersRequest> getAllUsersRequests(){
-        return UsersRequestRepository.findAll();
-    }
-
-
     @GetMapping("/requests/{id}")
     public usersRequest getUsersRequestsById(@PathVariable("id") Long id){
         usersRequest a =  UsersRequestRepository.findByRequestId(id);
@@ -75,6 +68,9 @@ public class usersRequestResource {
 
     @GetMapping("/requests") 
     public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size){
+
+        if(page == 0 || size == 0) return UsersRequestRepository.findAll();
+        
         Pageable pageFormat = PageRequest.of(page, size, Sort.by("requestId").descending());    
         Page<usersRequest>  res = UsersRequestRepository.findAll(pageFormat);  
         return res.getContent();            
