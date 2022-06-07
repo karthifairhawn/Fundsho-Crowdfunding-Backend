@@ -1,12 +1,5 @@
 package com.api.spring.boot.funsho.api.resource;
 
-import java.util.Date;
-import java.util.List;
-
-
-import com.api.spring.boot.funsho.api.entity.users;
-import com.api.spring.boot.funsho.api.entity.wallet.addMoneyTransaction;
-import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
 import com.api.spring.boot.funsho.api.repository.userRepository;
 import com.api.spring.boot.funsho.api.repository.walletRepository;

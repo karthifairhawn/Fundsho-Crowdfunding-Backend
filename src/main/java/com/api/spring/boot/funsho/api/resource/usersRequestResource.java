@@ -1,10 +1,5 @@
 package com.api.spring.boot.funsho.api.resource;
 
-import java.io.File;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-// import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 // import java.util.Map;
@@ -22,18 +17,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.RequestPart;
-// import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.multipart.MultipartFile;
 
 
 
@@ -41,9 +31,7 @@ import org.springframework.web.multipart.MultipartFile;
 @CrossOrigin
 public class usersRequestResource {
 
-    public static final String folderPath =  "incoming-files//";
-    public static final Path filePath = Paths.get(folderPath);    
-    
+
     @Autowired
     usersRequestRepository UsersRequestRepository;
 
@@ -143,41 +131,5 @@ public class usersRequestResource {
     }
 
 
-  
 
-    // Save File and return url Starts 
-    @PostMapping("/savefile")
-    public String uploadFile(@RequestParam("file") MultipartFile file) {
-        try {
-            createDirIfNotExist();
-
-            byte[] bytes = new byte[0];
-            bytes = file.getBytes();
-            String newName = new Date().hashCode()+file.getOriginalFilename();
-            Files.write(Paths.get(folderPath + newName), bytes);
-            return newName;
-            // return ResponseEntity.status(HttpStatus.OK)
-            //         .body(newName);
-        } catch (Exception e) {
-            // return ResponseEntity.status(HttpStatus.EXPECTATION_FAILED)
-            //         .body("Exception occurred for: " + file.getOriginalFilename() + "!");
-            return "failed";
-        }
-    }
-
-    private void createDirIfNotExist() {
-        //create directory to save the files
-        File directory = new File(folderPath);
-        if (!directory.exists()) {
-            directory.mkdir();
-        }
-    }
-
-    @GetMapping("/files")
-    public ResponseEntity<String[]> getListFiles() {
-        return ResponseEntity.status(HttpStatus.OK)
-                .body(new java.io.File(folderPath).list());
-    }
-
-    // Save File Ends...
 }

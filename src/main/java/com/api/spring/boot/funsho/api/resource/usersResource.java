@@ -5,7 +5,6 @@ import java.util.Date;
 // import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.transaction.Transaction;
 
 import com.api.spring.boot.funsho.api.dto.users.createUser;
 import com.api.spring.boot.funsho.api.dto.users.updateUser;
@@ -125,11 +124,7 @@ public class usersResource {
 
     @GetMapping("/users/{sessionKey}") // Return one user
     public MappingJacksonValue findUsingSessionKey(@PathVariable String sessionKey)
-    {
-        SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","dob","email","phNumber","username","userId","sessionKey","place"
-    );
-        FilterProvider filters = new SimpleFilterProvider().addFilter("privateFilter", filter);                
+    {    
         MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));
         mapping.setFilters(privateUserFilter());
         return mapping;
