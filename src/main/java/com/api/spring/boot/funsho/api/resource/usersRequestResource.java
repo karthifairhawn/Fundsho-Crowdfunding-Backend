@@ -87,15 +87,6 @@ public class usersRequestResource {
         return page;
     }    
 
-    // @GetMapping("/requests/search/{page}/{size}")
-    // public List<usersRequest> getUsersRequests(@RequestParam("search") String search, @PathVariable("page") int page, @PathVariable("size") int size){
-    //     Pageable pageFormat = PageRequest.of(page, size, Sort.by("requestId").descending());    
-    //     Page<usersRequest>  res = UsersRequestRepository.findByRequestNameContaining(search, pageFormat);  
-    //     return res.getContent();            
-    // }
-
-    
-
 
     @PostMapping("/donatereq")
     public wallet donateToRequest(@RequestBody donateRequest request){
