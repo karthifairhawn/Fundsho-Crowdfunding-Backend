@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 // import java.util.Map;
 
+import com.api.spring.boot.funsho.api.dto.requests.newReqDTO;
 import com.api.spring.boot.funsho.api.entity.users;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.donateRequest;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
@@ -39,21 +40,37 @@ public class usersRequestResource {
     userRepository UserRepository;
 
     @PostMapping("/requests")
-    public usersRequest saveUsersRequests(@RequestBody usersRequest obj){
-        System.out.println();
-        System.out.println(obj.toString());
-        System.out.println();
-        obj.setVotes(0l);
-        obj.setAmountRecieved(0l);        
-        return UsersRequestRepository.save(obj);
+    public usersRequest saveUsersRequests(@RequestBody newReqDTO obj){
+        
+        usersRequest usersRequest = new usersRequest();        
+        usersRequest.setVotes(0l);
+        usersRequest.setAmountRecieved(0l);
+        usersRequest.setFname(obj.getFname());
+        usersRequest.setLname(obj.getLname());
+        usersRequest.setGender(obj.getGender());
+        usersRequest.setBackground(obj.getBackground());
+        usersRequest.setDateOfBirth(obj.getDateOfBirth());
+        usersRequest.setInstitutionName(obj.getInstitutionName());
+        usersRequest.setStudyProgram(obj.getStudyProgram());
+        usersRequest.setInstitutePlace(obj.getInstitutePlace());        
+        usersRequest.setAdditionalEdInfo(obj.getAdditionalEdInfo());
+        usersRequest.setPhoneNumber(obj.getPhoneNumber());
+        usersRequest.setAddress(obj.getAddress());
+        usersRequest.setCity(obj.getCity());
+        usersRequest.setPinCode(obj.getPinCode());
+        usersRequest.setStateRegion(obj.getStateRegion());
+        usersRequest.setPersonalEmail(obj.getPersonalEmail());
+        usersRequest.setEventImageUrl(obj.getEventImageUrl());
+        usersRequest.setEventDescription(obj.getEventDescription());
+        usersRequest.setEventTitle(obj.getEventTitle());
+        usersRequest.setAmountRequired(obj.getAmountRequired());
+        usersRequest.setDeadLine(obj.getDeadLine());
+        usersRequest.setAddtionalFilesUrl(obj.getAddtionalFilesUrl());
+        usersRequest.setEventDescription(obj.getEventDescription());
+                
+        return UsersRequestRepository.save(usersRequest);
     }
-
-    @GetMapping("/requests/{id}")
-    public usersRequest getUsersRequestsById(@PathVariable("id") Long id){
-        usersRequest a =  UsersRequestRepository.findByRequestId(id);
-        return a;
-    }
-
+    
     @GetMapping("/requests") 
     public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size){
 
@@ -64,6 +81,14 @@ public class usersRequestResource {
         return res.getContent();            
     } 
 
+
+    @GetMapping("/requests/{id}")
+    public usersRequest getUsersRequestsById(@PathVariable("id") Long id){
+        usersRequest a =  UsersRequestRepository.findByRequestId(id);
+        return a;
+    }
+
+
     @GetMapping("/requests/featured/{page}/{size}")
     public List<usersRequest> getUsersRequests(){
         Pageable firstPage = PageRequest.of(0, 3, Sort.by("amountRecieved").descending());
@@ -72,7 +97,7 @@ public class usersRequestResource {
     }    
 
 
-    @PostMapping("/donatereq")
+    @PostMapping("/requests/{id}/donate")
     public wallet donateToRequest(@RequestBody donateRequest request){
 
         
