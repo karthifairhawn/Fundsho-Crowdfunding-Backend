@@ -50,12 +50,52 @@ public class usersRequestResource {
     @Autowired
     userRepository UserRepository;
 
-    @GetMapping("/topthreerequests")
+    @PostMapping("/requests")
+    public usersRequest saveUsersRequests(@RequestBody usersRequest obj){
+        System.out.println();
+        System.out.println(obj.toString());
+        System.out.println();
+        obj.setVotes(0l);
+        obj.setAmountRecieved(0l);        
+        return UsersRequestRepository.save(obj);
+    }
+
+
+    @GetMapping("/requests")
+    public List<usersRequest> getAllUsersRequests(){
+        return UsersRequestRepository.findAll();
+    }
+
+
+    @GetMapping("/requests/{id}")
+    public usersRequest getUsersRequestsById(@PathVariable("id") Long id){
+        usersRequest a =  UsersRequestRepository.findByRequestId(id);
+        return a;
+    }
+
+    @GetMapping("/requests") 
+    public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size){
+        Pageable pageFormat = PageRequest.of(page, size, Sort.by("requestId").descending());    
+        Page<usersRequest>  res = UsersRequestRepository.findAll(pageFormat);  
+        return res.getContent();            
+    } 
+
+    @GetMapping("/requests/featured/{page}/{size}")
     public List<usersRequest> getUsersRequests(){
         Pageable firstPage = PageRequest.of(0, 3, Sort.by("amountRecieved").descending());
         List<usersRequest>  page = UsersRequestRepository.findAll(firstPage).getContent();        
         return page;
     }    
+
+    @GetMapping("/requests/search/{page}/{size}")
+    public List<usersRequest> getUsersRequests(@RequestParam("search") String search, @PathVariable("page") int page, @PathVariable("size") int size){
+        Pageable pageFormat = PageRequest.of(page, size, Sort.by("requestId").descending());    
+        Page<usersRequest>  res = UsersRequestRepository.findByRequestNameContaining(search, pageFormat);  
+        return res.getContent();            
+    }
+
+    
+
 
     @PostMapping("/donatereq")
     public wallet donateToRequest(@RequestBody donateRequest request){
@@ -115,44 +155,10 @@ public class usersRequestResource {
         return handlingUser.getWallet();
     }
 
-    @GetMapping("/singlerequest/{id}")
-    public usersRequest getUsersSingleRequests(@PathVariable("id") long id){        
-        usersRequest  result = UsersRequestRepository.findByRequestId(id);
-        return result;
-    }   
 
-    @GetMapping("/usersrequests/{id}/{page}")
-    public List<usersRequest> getUsersRequests(@PathVariable("id") String id, @PathVariable("page") int page){
-        Pageable pageFormat = PageRequest.of(page, 8);
-        System.out.println(id);
-        if(id.equals("null")){
-            Page<usersRequest>  res = UsersRequestRepository.findAll(pageFormat);  
-            return res.getContent();
-        }
-        List<usersRequest>  res = UsersRequestRepository.findByUserIdNot(Long.parseLong(id),pageFormat);        
-        return res;
-    }   
-
-
-
-    @GetMapping("/allreq")
-    public List<usersRequest> getAllUsersRequests(){
-        return UsersRequestRepository.findAll();
-    }
-
-    @PostMapping("/usersrequests")
-    public usersRequest saveUsersRequests(@RequestBody usersRequest obj){
-        System.out.println();
-        System.out.println(obj.toString());
-        System.out.println();
-        obj.setVotes(0l);
-        obj.setAmountRecieved(0l);        
-        return UsersRequestRepository.save(obj);
-    }
-
+  
 
     // Save File and return url Starts 
-
     @PostMapping("/savefile")
     public String uploadFile(@RequestParam("file") MultipartFile file) {
         try {

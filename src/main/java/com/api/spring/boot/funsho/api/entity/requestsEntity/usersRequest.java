@@ -29,7 +29,6 @@ public class usersRequest {
     
 
     // Personal Information 
-
     String fname;
     String lname;
     String gender;
@@ -40,15 +39,12 @@ public class usersRequest {
     Date dateOfBirth;
 
     // Educational Information
-
     String institutionName; 
     String studyProgram;
-    String institutePlace;
-    String CGPA;
+    String institutePlace;    
 
 
     // Contact Information
-
     Long phoneNumber;
     String address;
     String city;
@@ -57,8 +53,6 @@ public class usersRequest {
     String personalEmail;
 
     // Event Information
-
-    
     String imageUrl;
     String eventTitle;
     Long amountRequired;
