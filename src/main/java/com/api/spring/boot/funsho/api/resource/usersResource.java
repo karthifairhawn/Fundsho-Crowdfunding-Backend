@@ -49,12 +49,6 @@ public class usersResource {
     //     this.request = request;
     // }
 
-
-    // @GetMapping("/hello")
-    // public simpleJson hello() {
-    //     return new simpleJson();
-    // }
-
     // @GetMapping("/googlesingup/{id}")
     // public void googleSingUp(@PathVariable String id){
     //     System.out.println(id);
@@ -109,7 +103,7 @@ public class usersResource {
         return mapping;
     }
 
-    @GetMapping("/users/user/{id}") // Return user by id
+    @GetMapping("/users/{id}") // Return user by id
     public MappingJacksonValue findById(@PathVariable Long id)
     {
         users user = UserRepository.findByUserId(id);
@@ -122,39 +116,36 @@ public class usersResource {
 
     }
 
-    @GetMapping("/users/{sessionKey}") // Return one user
-    public MappingJacksonValue findUsingSessionKey(@PathVariable String sessionKey)
-    {    
-        MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));
-        mapping.setFilters(privateUserFilter());
-        return mapping;
-       
-    }
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.PUT)  // Update existing user
+    public void updateUser(@RequestBody updateUser updatingUser,@PathVariable Long id,@RequestParam String sessionKey){
+        users user = UserRepository.findByUserId(id);
+        if(user==null) throw new userNotFoundException("User Not Found");
 
-
-    @RequestMapping(value = "/users", method = RequestMethod.PUT)  // Update existing user
-    public void updateUser(@RequestBody updateUser updatingUser){
-        if(updatingUser.getChangePassword()){
-            users found = UserRepository.findBySessionKey(updatingUser.getSessionKey());
-            found.setPassword(updatingUser.getPassword());            
-            UserRepository.save(found);
-        }else{
-            users found = UserRepository.findBySessionKey(updatingUser.getSessionKey());
-            found.setFname(updatingUser.getFname());
-            found.setLname(updatingUser.getLname());
-            found.setDob(updatingUser.getDob());
-            found.setEmail(updatingUser.getEmail());
-            found.setPhNumber(updatingUser.getPhNumber());            
-            found.setUsername(updatingUser.getUsername());
-            UserRepository.save(found);
+        if(user.getSessionKey()!=sessionKey) throw new userNotFoundException("User Not Found");
+                
+        if(updatingUser.getChangePassword()){            
+            user.setPassword(updatingUser.getPassword());            
+            UserRepository.save(user);
+        }else{            
+            user.setFname(updatingUser.getFname());
+            user.setLname(updatingUser.getLname());
+            user.setDob(updatingUser.getDob());
+            user.setEmail(updatingUser.getEmail());
+            user.setPhNumber(updatingUser.getPhNumber());            
+            user.setUsername(updatingUser.getUsername());
+            UserRepository.save(user);
         }
         
     }
 
+    @RequestMapping(value = "/users/{id}", method = RequestMethod.DELETE)  // Delete existing user
+    public void deleteUser(@RequestParam String sessionKey,@PathVariable Long id){
 
-    @RequestMapping(value = "/users/{sessionKey}", method = RequestMethod.DELETE)  // Delete existing user
-    public void deleteUser(@PathVariable String sessionKey){
+        users user = UserRepository.findByUserId(id);
+        if(user==null) throw new userNotFoundException("User Not Found");
 
+        if(user.getSessionKey()!=sessionKey) throw new userNotFoundException("User Not Found");
+                
         // Get all obj to delete
         users found = UserRepository.findBySessionKey(sessionKey);        
         long userId = found.getUserId();        
@@ -173,7 +164,6 @@ public class usersResource {
 
         UserRepository.delete(found);
     }
-
 
     @PostMapping("/users/login") // Login user
     public MappingJacksonValue authUsers(@RequestBody @NotNull login user) throws Exception {
@@ -200,6 +190,17 @@ public class usersResource {
         }
         throw new userNotFoundException("User Not Found");
     }
+
+    @GetMapping("/users/profile/{sessionKey}") // Return user by session key
+    public MappingJacksonValue findUsingSessionKey(@PathVariable String sessionKey)
+    {    
+        MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));
+        mapping.setFilters(privateUserFilter());
+        return mapping;
+       
+    }
+
+
 
     public FilterProvider privateUserFilter(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(

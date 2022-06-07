@@ -4,21 +4,10 @@ import java.util.Date;
 
 import lombok.Data;
 
-
 @Data
-public class newReqDTO {
+public class updateRequestDTO {
+    
 
-    // Personal Information 
-    String fname;
-    String lname;
-    String gender;        
-    String background;    
-    Date dateOfBirth;
-
-    // Educational Information
-    String institutionName; 
-    String studyProgram;
-    String institutePlace;  
 
     
     String additionalEdInfo; 
@@ -26,10 +15,6 @@ public class newReqDTO {
 
     // Contact Information
     Long phoneNumber;
-    String address;
-    String city;
-    String pinCode;
-    String stateRegion;
     String personalEmail;
 
     // Event Information
@@ -41,7 +26,5 @@ public class newReqDTO {
         
     String eventDescription;
 
-    String sessionId;
-    
     
 }

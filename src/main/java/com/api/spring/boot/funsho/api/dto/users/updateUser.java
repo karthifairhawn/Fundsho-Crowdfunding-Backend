@@ -10,8 +10,7 @@ public class updateUser {
     String lname;
     Date dob;
     String email;
-    String phNumber;
-    String sessionKey;
+    String phNumber;    
     String password;
     String username;
     Boolean changePassword;
