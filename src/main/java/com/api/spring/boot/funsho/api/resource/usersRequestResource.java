@@ -73,12 +73,12 @@ public class usersRequestResource {
         return a;
     }
 
-    @GetMapping("/requests") 
-    public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size){
-        Pageable pageFormat = PageRequest.of(page, size, Sort.by("requestId").descending());    
-        Page<usersRequest>  res = UsersRequestRepository.findAll(pageFormat);  
-        return res.getContent();            
-    } 
+    // @GetMapping("/requests") 
+    // public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size){
+    //     Pageable pageFormat = PageRequest.of(page, size, Sort.by("requestId").descending());    
+    //     Page<usersRequest>  res = UsersRequestRepository.findAll(pageFormat);  
+    //     return res.getContent();            
+    // } 
 
     @GetMapping("/requests/featured/{page}/{size}")
     public List<usersRequest> getUsersRequests(){
