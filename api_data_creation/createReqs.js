@@ -16,7 +16,7 @@ csv()
 
 function createUser(jsonObj){    
 
-    axios.post('https://fundshop-api.herokuapp.com/users', {
+    axios.post('https://fundshop-api.herokuapp.com/requests?sessionKey=-1678574516', {
         fname : jsonObj.fname,
         lname : jsonObj.lname,
         gender : jsonObj.gender,
@@ -40,8 +40,7 @@ function createUser(jsonObj){
         amountRequired : jsonObj.amountRequired,
         deadLine : jsonObj.deadLine,
         addtionalFilesUrl : jsonObj.addtionalFilesUrl,
-        eventDescription : jsonObj.eventDescription,
-        sessionId : "-1678574516"
+        eventDescription : jsonObj.eventDescription,        
     })
     .then(function (response) {
         console.log(response.status);
