@@ -215,7 +215,7 @@ public class usersResource {
     public wallet getWallet(@RequestParam String sessionKey,@PathVariable Long userId){
         users user = UserRepository.findBySessionKey(sessionKey);
         if(user.getUserId()-userId!=0) throw new userNotFoundException("Given userId & Session Key not matched.");
-        if(user == null) throw new userNotFoundException("Session key incorrect")
+        if(user == null) throw new userNotFoundException("Session key incorrect");
         return WalletRepository.findByUserId(userId);        
     }
 
@@ -228,7 +228,7 @@ public class usersResource {
     public loginData getLoginHistory(@PathVariable Long userId,@RequestParam String sessionKey){
         users user = UserRepository.findBySessionKey(sessionKey);
         if(user.getUserId()-userId!=0) throw new userNotFoundException("Given userId & Session Key not matched.");
-        if(user == null) throw new userNotFoundException("Session key incorrect")
+        if(user == null) throw new userNotFoundException("Session key incorrect");
         return LoginDataRepository.findByUserId(userId);            
     }
 
