@@ -3,6 +3,7 @@ package com.api.spring.boot.funsho.api.resource;
 import java.util.ArrayList;
 import java.util.Date;
 // import java.util.Map;
+import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,12 +12,14 @@ import com.api.spring.boot.funsho.api.dto.users.updateUser;
 import com.api.spring.boot.funsho.api.entity.users;
 import com.api.spring.boot.funsho.api.entity.auth.login;
 import com.api.spring.boot.funsho.api.entity.auth.loginData;
+import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
 import com.api.spring.boot.funsho.api.exceptions.userNotFoundException;
 import com.api.spring.boot.funsho.api.repository.loginDataRepository;
 import com.api.spring.boot.funsho.api.repository.transactionRepository;
 import com.api.spring.boot.funsho.api.repository.userRepository;
+import com.api.spring.boot.funsho.api.repository.usersRequestRepository;
 import com.api.spring.boot.funsho.api.repository.walletRepository;
 import com.fasterxml.jackson.databind.ser.FilterProvider;
 import com.fasterxml.jackson.databind.ser.impl.SimpleBeanPropertyFilter;
@@ -43,7 +46,8 @@ public class usersResource {
     @Autowired
     transactionRepository TransactionRepository;
 
-
+    @Autowired
+    usersRequestRepository UsersRequestRepository;
     // @Autowired
     // public void setRequest(HttpServletRequest request) {
     //     this.request = request;
@@ -208,6 +212,10 @@ public class usersResource {
         return WalletRepository.findByUserId(userId);        
     }
 
+    @GetMapping("/users/{userId}/requests") 
+    public List<usersRequest> getAllRequests(@PathVariable Long userId){
+        return UsersRequestRepository.findByUserId(userId);        
+    }
 
     public FilterProvider privateUserFilter(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(

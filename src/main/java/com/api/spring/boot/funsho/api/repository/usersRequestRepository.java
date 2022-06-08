@@ -22,6 +22,8 @@ public interface usersRequestRepository extends JpaRepository<usersRequest,Long>
     
     Page<usersRequest> findAll(Pageable pageFormat);
 
+    List<usersRequest> findByUserId(Long userId);
+
     
     
 }
