@@ -200,6 +200,13 @@ public class usersResource {
        
     }
 
+    @GetMapping("/users/{userId}/wallet") // Return wallet of user
+    public wallet getWallet(@RequestParam String sessionKey,@PathVariable Long userId){
+        users user = UserRepository.findBySessionKey(sessionKey);
+        if(user.getUserId()!=userId) throw new userNotFoundException("User not found");
+        if(user == null) return null;
+        return WalletRepository.findByUserId(userId);        
+    }
 
 
     public FilterProvider privateUserFilter(){

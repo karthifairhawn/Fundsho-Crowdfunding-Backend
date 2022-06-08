@@ -1,14 +1,18 @@
 package com.api.spring.boot.funsho.api.resource;
 
+import com.api.spring.boot.funsho.api.entity.users;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
+import com.api.spring.boot.funsho.api.exceptions.userNotFoundException;
 import com.api.spring.boot.funsho.api.repository.userRepository;
 import com.api.spring.boot.funsho.api.repository.walletRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -57,5 +61,7 @@ public class walletResource {
     public void saveNewWallet(@RequestBody wallet w){
         WalletRepository.save(w);
     }
+
+
     
 }
