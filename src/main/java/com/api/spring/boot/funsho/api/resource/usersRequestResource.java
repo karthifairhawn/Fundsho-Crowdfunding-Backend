@@ -108,15 +108,15 @@ public class usersRequestResource {
         
         if(usersRequest.getUserId() != UserRepository.findBySessionKey(sessionKey).getUserId()) throw new userNotFoundException("You are not authorized to update this request");
 
-        usersRequest.setPhoneNumber(obj.getPhoneNumber());        
-        usersRequest.setPersonalEmail(obj.getPersonalEmail());
-        usersRequest.setEventImageUrl(obj.getEventImageUrl());
-        usersRequest.setEventDescription(obj.getEventDescription());
-        usersRequest.setEventTitle(obj.getEventTitle());
-        usersRequest.setAmountRequired(obj.getAmountRequired());
-        usersRequest.setDeadLine(obj.getDeadLine());
-        usersRequest.setAddtionalFilesUrl(obj.getAddtionalFilesUrl());
-        usersRequest.setAdditionalEdInfo(obj.getAdditionalEdInfo());
+        if(obj.getPhoneNumber().length() != 0) usersRequest.setPhoneNumber(obj.getPhoneNumber());        
+        if(obj.getPersonalEmail().length() != 0) usersRequest.setPersonalEmail(obj.getPersonalEmail());
+        if(obj.getEventImageUrl().length() != 0) usersRequest.setEventImageUrl(obj.getEventImageUrl());
+        if(obj.getEventDescription().length() != 0) usersRequest.setEventDescription(obj.getEventDescription());
+        if(obj.getEventTitle().length() != 0) usersRequest.setEventTitle(obj.getEventTitle());
+        if(obj.getAmountRequired()!= 0) usersRequest.setAmountRequired(obj.getAmountRequired());
+        if(obj.getDeadLine()!=null) usersRequest.setDeadLine(obj.getDeadLine());
+        if(obj.getAddtionalFilesUrl().length() != 0) usersRequest.setAddtionalFilesUrl(obj.getAddtionalFilesUrl());
+        if(obj.getAdditionalEdInfo().length() != 0) usersRequest.setAdditionalEdInfo(obj.getAdditionalEdInfo());
 
         UsersRequestRepository.save(usersRequest);
         return usersRequest;
