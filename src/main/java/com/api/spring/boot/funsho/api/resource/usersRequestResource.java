@@ -77,7 +77,8 @@ public class usersRequestResource {
         usersRequest.setAddtionalFilesUrl(obj.getAddtionalFilesUrl());
         usersRequest.setEventDescription(obj.getEventDescription());
                 
-        return UsersRequestRepository.save(usersRequest);
+        UsersRequestRepository.save(usersRequest);
+        return usersRequest;
     }
     
     @GetMapping("/requests") 

@@ -8,15 +8,15 @@ const csv=require('csvtojson')
 csv()
 .fromFile(csvFilePath)
 .then((jsonObj)=>{
-    for(var key in jsonObj)
-    createUser(jsonObj[key]);
+    // for(var key in jsonObj)
+    createUser(jsonObj[0]);
     // console.log(jsonObj[key]);
 })
 
 
 function createUser(jsonObj){    
 
-    axios.post('https://fundshop-api.herokuapp.com/requests?sessionKey=-1678574516', {
+    axios.post('https://fundshop-api.herokuapp.com/requests?sessionKey=1084790249', {
         fname : jsonObj.fname,
         lname : jsonObj.lname,
         gender : jsonObj.gender,
