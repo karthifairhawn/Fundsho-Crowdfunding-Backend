@@ -21,12 +21,18 @@ public class exceptionHandler extends ResponseEntityExceptionHandler {
         ExceptionResponse er = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity(er, HttpStatus.NOT_FOUND);
     }
-
-    @ExceptionHandler(oldPasswordWrong.class)
+    
+    @ExceptionHandler(notFoundException.class)
     public final ResponseEntity<Object>
-    handleOldPasswordWrong(Exception ex, WebRequest request) throws Exception {
+        notFoundException(Exception ex, WebRequest request) throws Exception {
         ExceptionResponse er = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
-        return new ResponseEntity(er, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity(er, HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(unauthorizedException.class)
+    public final ResponseEntity<Object> unauthorizedException(Exception ex, WebRequest request) throws Exception {
+        ExceptionResponse er = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
+        return new ResponseEntity(er, HttpStatus.NOT_FOUND);
     }
 
 }

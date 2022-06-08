@@ -195,8 +195,8 @@ public class usersResource {
         throw new userNotFoundException("User Not Found");
     }
 
-    @GetMapping("/users/profile/{sessionKey}") // Return user by session key
-    public MappingJacksonValue findUsingSessionKey(@PathVariable String sessionKey)
+    @GetMapping("/users/profile/") // Return user by session key
+    public MappingJacksonValue findUsingSessionKey(@RequestParam String sessionKey)
     {    
         MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));
         mapping.setFilters(privateUserFilter());
@@ -217,18 +217,26 @@ public class usersResource {
         return UsersRequestRepository.findByUserId(userId);        
     }
 
+    @GetMapping("/users/{userId}/loginHistory")
+    public loginData getLoginHistory(@PathVariable Long userId,@RequestParam String sessionKey){
+        users user = UserRepository.findBySessionKey(sessionKey);
+        if(user.getUserId()!=userId) throw new userNotFoundException("User not found");
+        if(user == null) return null;
+        return LoginDataRepository.findByUserId(userId);            
+    }
+
+    
+
     public FilterProvider privateUserFilter(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","dob","email","phNumber","username","userId","sessionKey","place"
+            "fname","lname","dob","email","phNumber","username","userId","sessionKey"
         );
 
         FilterProvider filters = new SimpleFilterProvider().addFilter("userFilter", filter);        
         return filters;
     }
-
     
-    public FilterProvider publicUserFilter(){
-       
+    public FilterProvider publicUserFilter(){       
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
             "fname","lname","email","username","userId"
         );
