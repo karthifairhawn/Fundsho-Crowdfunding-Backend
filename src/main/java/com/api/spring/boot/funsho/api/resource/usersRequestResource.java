@@ -45,7 +45,8 @@ public class usersRequestResource {
     @PostMapping("/requests")
     public usersRequest saveUsersRequests(@RequestBody newReqDTO obj,@RequestParam("sessionKey") String sessionKey){
         
-        usersRequest usersRequest = new usersRequest();    
+        usersRequest usersRequest = new usersRequest(); 
+
         users user = UserRepository.findBySessionKey(sessionKey);
         System.out.println(user.getUserId());
         if(user == null) throw new userNotFoundException("User Not Found for this sessionKey");
@@ -77,6 +78,7 @@ public class usersRequestResource {
         usersRequest.setAddtionalFilesUrl(obj.getAddtionalFilesUrl());
         usersRequest.setEventDescription(obj.getEventDescription());
                 
+        System.out.println(usersRequest.toString());
         UsersRequestRepository.save(usersRequest);
         return usersRequest;
     }
