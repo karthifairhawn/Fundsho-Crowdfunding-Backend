@@ -12,5 +12,6 @@ public class createUser{
     String email;
     String phNumber;    
     String password;
-    String username;    
+    String username; 
+    String avatarUrl;   
 }

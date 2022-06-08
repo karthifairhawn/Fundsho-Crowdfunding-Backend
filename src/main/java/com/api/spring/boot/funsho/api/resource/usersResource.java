@@ -235,7 +235,7 @@ public class usersResource {
 
     public FilterProvider privateUserFilter(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","dob","email","phNumber","username","userId","sessionKey"
+            "fname","lname","dob","email","phNumber","username","userId","sessionKey","avatarUrl"
         );
 
         FilterProvider filters = new SimpleFilterProvider().addFilter("userFilter", filter);        
@@ -244,7 +244,7 @@ public class usersResource {
     
     public FilterProvider publicUserFilter(){       
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","email","username","userId"
+            "fname","lname","email","username","userId","avatarUrl"
         );
         FilterProvider filters = new SimpleFilterProvider().addFilter("userFilter", filter);        
         return filters;

@@ -29,7 +29,8 @@ public class users {
         this.password = newUser.getPassword();
         this.phNumber = newUser.getPhNumber();
         this.dob = newUser.getDob();
-        this.username = newUser.getUsername();        
+        this.username = newUser.getUsername();    
+        this.avatarUrl = newUser.getAvatarUrl();    
     }
 
 
@@ -39,6 +40,7 @@ public class users {
 
     String fname;
     String lname;
+    String avatarUrl;
     Date dob;
     String email;
     String phNumber;
