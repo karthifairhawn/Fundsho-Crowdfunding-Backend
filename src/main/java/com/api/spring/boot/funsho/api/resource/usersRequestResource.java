@@ -126,9 +126,12 @@ public class usersRequestResource {
     public void deleteUsersRequests(@PathVariable("id") Long id,@RequestParam("sessionKey") String sessionKey){
 
         users user = UserRepository.findBySessionKey(sessionKey);
+        if(user == null){
+            throw new userNotFoundException("User Not Found for this sessionKey");
+        }
         usersRequest usersRequest = UsersRequestRepository.findByRequestId(id);
 
-        if(user.getUserId()!=usersRequest.getUserId()) throw new userNotFoundException("You are not authorized to delete this request");
+        if(user.getUserId()-usersRequest.getUserId()!=0) throw new userNotFoundException("You are not authorized to delete this request");
         
         UsersRequestRepository.deleteById(id);
                     
