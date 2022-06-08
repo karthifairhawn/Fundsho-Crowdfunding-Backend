@@ -131,6 +131,7 @@ public class usersRequestResource {
         }
         usersRequest usersRequest = UsersRequestRepository.findByRequestId(id);
 
+        if(usersRequest == null) throw new userNotFoundException("Request Not Found");
         if(user.getUserId()-usersRequest.getUserId()!=0) throw new userNotFoundException("You are not authorized to delete this request");
         
         UsersRequestRepository.deleteById(id);
