@@ -199,9 +199,9 @@ public class usersResource {
     public MappingJacksonValue findUsingSessionKey(@RequestParam String sessionKey,@PathVariable Long userId)
     {    
         users user = UserRepository.findBySessionKey(sessionKey);
-        if(user==null) throw new userNotFoundException("User Not Found");
+        if(user==null) throw new userNotFoundException("No user found for this session key");
         if(userId!=user.getUserId()){
-            throw new userNotFoundException("User Not Found");
+            throw new userNotFoundException("Given userId & Session Key not matched.");
         }        
 
         MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));

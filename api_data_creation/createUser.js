@@ -1,7 +1,7 @@
 const axios = require('axios').default;
 
 
-const csvFilePath='create user schema.csv';
+const csvFilePath='users.csv';
 
 const csv=require('csvtojson')
 
@@ -24,9 +24,10 @@ function createUser(jsonObj){
         phNumber: jsonObj['phNumber'],
         password:  jsonObj['password'],
         username: jsonObj['username'],
+        avatarUrl: jsonObj['avatarUrl']
     })
     .then(function (response) {
-        console.log(response.statusText);
+        console.log(response.status);
     })
     .catch(function (error) {
         console.log(error);
