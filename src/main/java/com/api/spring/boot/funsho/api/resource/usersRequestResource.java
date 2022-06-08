@@ -46,8 +46,8 @@ public class usersRequestResource {
     public usersRequest saveUsersRequests(@RequestBody newReqDTO obj,@RequestParam("sessionKey") String sessionKey){
         
         usersRequest usersRequest = new usersRequest();    
-        users user= UserRepository.findBySessionKey(sessionKey);
-        System.out.println(user);
+        users user = UserRepository.findBySessionKey(sessionKey);
+        System.out.println(user.getUserId());
         if(user == null) throw new userNotFoundException("User Not Found for this sessionKey");
 
         Long userId = user.getUserId();
