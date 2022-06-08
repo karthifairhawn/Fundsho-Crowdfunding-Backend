@@ -201,6 +201,7 @@ public class usersResource {
         users user = UserRepository.findBySessionKey(sessionKey);
         if(user==null) throw new userNotFoundException("No user found for this session key");
         if(userId!=user.getUserId()){
+            System.out.println(userId+"   "+user.getUserId());
             throw new userNotFoundException("Given userId & Session Key not matched.");
         }        
 
