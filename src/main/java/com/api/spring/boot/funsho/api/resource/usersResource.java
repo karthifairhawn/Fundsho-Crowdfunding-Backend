@@ -195,9 +195,15 @@ public class usersResource {
         throw new userNotFoundException("User Not Found");
     }
 
-    @GetMapping("/users/profile/") // Return user by session key
-    public MappingJacksonValue findUsingSessionKey(@RequestParam String sessionKey)
+    @GetMapping("/users/{userId}/profile") // Return user by session key
+    public MappingJacksonValue findUsingSessionKey(@RequestParam String sessionKey,@PathVariable Long userId)
     {    
+        users user = UserRepository.findBySessionKey(sessionKey);
+        if(user==null) throw new userNotFoundException("User Not Found");
+        if(userId!=user.getUserId()){
+            throw new userNotFoundException("User Not Found");
+        }        
+
         MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findBySessionKey(sessionKey));
         mapping.setFilters(privateUserFilter());
         return mapping;
