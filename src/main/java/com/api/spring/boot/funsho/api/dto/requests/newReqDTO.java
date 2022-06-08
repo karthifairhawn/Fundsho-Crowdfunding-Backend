@@ -25,7 +25,7 @@ public class newReqDTO {
 
 
     // Contact Information
-    Long phoneNumber;
+    String phoneNumber;
     String address;
     String city;
     String pinCode;

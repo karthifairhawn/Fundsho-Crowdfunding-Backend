@@ -14,7 +14,7 @@ public class updateRequestDTO {
 
 
     // Contact Information
-    Long phoneNumber;
+    String phoneNumber;
     String personalEmail;
 
     // Event Information

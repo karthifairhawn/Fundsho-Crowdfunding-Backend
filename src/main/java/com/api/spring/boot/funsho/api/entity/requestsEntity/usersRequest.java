@@ -49,7 +49,8 @@ public class usersRequest {
 
 
     // Contact Information
-    Long phoneNumber;
+    @Column(length = 20) 
+    String phoneNumber;
     String address;
     String city;
     String pinCode;
