@@ -187,6 +187,13 @@ public class usersRequestResource {
     }
 
 
+    @GetMapping("/requests/{id}/donations")
+    public List<transaction> getDonations(@PathVariable("id") Long id){        
+        usersRequest usersRequest = UsersRequestRepository.findByRequestId(id);
+        if(usersRequest == null) throw new userNotFoundException("Request Not Found");
+        
+        return TransactionRepository.findByRequestId(id);
+    }
 
-
+    
 }
