@@ -8,7 +8,6 @@ import com.api.spring.boot.funsho.api.dto.requests.donateDTO;
 import com.api.spring.boot.funsho.api.dto.requests.newReqDTO;
 import com.api.spring.boot.funsho.api.dto.requests.updateRequestDTO;
 import com.api.spring.boot.funsho.api.entity.users;
-import com.api.spring.boot.funsho.api.entity.requestsEntity.donateRequest;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
@@ -21,7 +20,6 @@ import com.api.spring.boot.funsho.api.repository.usersRequestRepository;
 import com.api.spring.boot.funsho.api.repository.walletRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -62,8 +60,6 @@ public class usersRequestResource {
 
         users user = UserRepository.findBySessionKey(sessionKey);
         System.out.println(user.getUserId());
-        if(user == null) throw new userNotFoundException("User Not Found for this sessionKey");
-
         Long userId = user.getUserId();
         usersRequest.setUserId(userId);    
         usersRequest.setVotes(0l);

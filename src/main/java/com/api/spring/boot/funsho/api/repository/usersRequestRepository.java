@@ -5,7 +5,6 @@ import java.util.List;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 // import org.springframework.data.domain.Slice;
 import org.springframework.data.jpa.repository.JpaRepository;
