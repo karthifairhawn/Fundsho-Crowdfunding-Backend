@@ -14,4 +14,6 @@ public interface walletRepository extends JpaRepository<wallet,Long>{
     @Query("select w from wallet w where w.user.id = ?1")
     wallet findByUserId(long userId);
 
+    
+
 }

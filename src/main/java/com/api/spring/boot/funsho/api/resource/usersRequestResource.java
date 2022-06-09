@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 // import java.util.Map;
 
+import com.api.spring.boot.funsho.api.dto.requests.donateDTO;
 import com.api.spring.boot.funsho.api.dto.requests.newReqDTO;
 import com.api.spring.boot.funsho.api.dto.requests.updateRequestDTO;
 import com.api.spring.boot.funsho.api.entity.users;
@@ -11,14 +12,20 @@ import com.api.spring.boot.funsho.api.entity.requestsEntity.donateRequest;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
+import com.api.spring.boot.funsho.api.exceptions.notAcceptable;
+import com.api.spring.boot.funsho.api.exceptions.unauthorizedException;
 import com.api.spring.boot.funsho.api.exceptions.userNotFoundException;
+import com.api.spring.boot.funsho.api.repository.transactionRepository;
 import com.api.spring.boot.funsho.api.repository.userRepository;
 import com.api.spring.boot.funsho.api.repository.usersRequestRepository;
+import com.api.spring.boot.funsho.api.repository.walletRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -41,6 +48,12 @@ public class usersRequestResource {
 
     @Autowired
     userRepository UserRepository;
+
+    @Autowired
+    walletRepository WalletRepository;
+
+    @Autowired
+    transactionRepository TransactionRepository;
 
     @PostMapping("/requests")
     public usersRequest saveUsersRequests(@RequestBody newReqDTO obj,@RequestParam("sessionKey") String sessionKey){
@@ -138,64 +151,43 @@ public class usersRequestResource {
                     
     }
     
-    
-    // @PostMapping("/requests/{id}/donate")
-    // public wallet donateToRequest(@RequestBody donateRequest request,@PathVariable("id") Long id){
+    @PostMapping("/requests/{id}/donate")
+    public ResponseEntity<String> donate(@PathVariable("id") Long id,@RequestBody donateDTO obj,@RequestParam("sessionKey") String sessionKey){      
 
+        usersRequest usersRequest = UsersRequestRepository.findByRequestId(id);
+        if(usersRequest == null) throw new userNotFoundException("Request Not Found");
+
+        users user = UserRepository.findBySessionKey(sessionKey);
+        if(user == null) throw new userNotFoundException("User Not Found for this sessionKey");
+
+        if(user.getUserId()-usersRequest.getUserId()==0) throw new unauthorizedException("You are not authorized to donate your own request");
+
+        wallet userWallet = WalletRepository.findByUserId(user.getUserId());
+        if(userWallet == null) throw new userNotFoundException("User Wallet is locked contact admin");
+
+        if(userWallet.getBalance() < obj.getDonationAmount()) throw new notAcceptable("Insufficient Funds");
+
+        userWallet.setBalance(userWallet.getBalance() - obj.getDonationAmount());
+        usersRequest.setAmountRecieved(usersRequest.getAmountRecieved()+obj.getDonationAmount());
+
+        transaction t = new transaction();
+
+        t.setTransactionAmount(obj.getDonationAmount());
+        t.setTransactionType("Donation from wallet");
+        t.setTransactionDateTime(new Date());
+        t.setRequestId(usersRequest.getRequestId());
+        t.setTransactionDescription(obj.getDonationDescription());
+        t.setTransactionStatus("Success");      
+
+        WalletRepository.save(userWallet);
+        UsersRequestRepository.save(usersRequest);
+        TransactionRepository.save(t);
+
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body("Donation Successful");
         
-    //     users handlingUser = UserRepository.findBySessionKey(request.getSessionId());
-    //     wallet handlingUserWallet = handlingUser.getWallet();
-    //     usersRequest handlingRequests = UsersRequestRepository.findByRequestId(request.getRequestId());
+    }
 
-    //     if(handlingRequests.getAmountRecieved() >=handlingRequests.getAmountRequired()){
-    //         System.out.println("Already Req dumbed");
-    //         return handlingUserWallet;
-    //     }
-
-    //     users recievingUser = UserRepository.findByUserId(handlingRequests.getUserId());
-    //     wallet recievingUserWallet = recievingUser.getWallet();
-
-    //     // if(handlingUser.getUserId()==recievingUser.getUserId()) return recievingUserWallet;
-    //     // if(handlingUser.getWallet().getBalance()<request.getDonationAmount()) return handlingUserWallet;
-
-        
-    //     System.out.println();
-    //     System.out.println("HandlingUser Updated");
-    //     System.out.println("HandlingUser Name "+handlingUser.getFname());
-    //     System.out.println("Reciever Name "+recievingUser.getFname());
-    //     System.out.println();
-
-    //     recievingUserWallet.setBalance(recievingUserWallet.getBalance()+request.getDonationAmount());  // Update Reciever Balance (Working)         
-    //     transaction recieverTransaction = transaction.builder()
-    //                 .reason("Donation Recieved From "+handlingUser.getFname())
-    //                 .amount(request.getDonationAmount())
-    //                 .status(true)
-    //                 .direction("in")
-    //                 .timestamp(new Date())
-    //                 .build();
-    //     recievingUserWallet.getTransaction().add(recieverTransaction);        
-    //     UserRepository.save(recievingUser);
-
-
-
-
-    //     handlingUserWallet.setBalance(handlingUserWallet.getBalance()-request.getDonationAmount());   
-    //     transaction donorTransaction = transaction.builder()
-    //                 .reason("Donation to "+recievingUser.getFname()+" successfull")
-    //                 .amount(request.getDonationAmount())
-    //                 .status(true)
-    //                 .direction("out")
-    //                 .timestamp(new Date())
-    //                 .build();
-    //     handlingUserWallet.getTransaction().add(donorTransaction);       
-    //     UserRepository.save(handlingUser);
-
-
-    //     handlingRequests.setAmountRecieved(handlingRequests.getAmountRecieved()+request.getDonationAmount());
-    //     UsersRequestRepository.save(handlingRequests);
-
-    //     return handlingUser.getWallet();
-    // }
 
 
 

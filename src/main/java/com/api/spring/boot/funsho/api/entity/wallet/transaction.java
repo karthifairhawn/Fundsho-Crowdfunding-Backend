@@ -23,12 +23,11 @@ public class transaction {
     @GeneratedValue(strategy= GenerationType.AUTO)
     Long transactionId; 
 
-    
-    
-    String reason;
-    Long amount;
-    Boolean status;
-    Date timestamp;    
-    String direction;
+    Long transactionAmount;    
+    String transactionType;
+    String transactionDescription;
+    Date transactionDateTime;
+    String transactionStatus; 
+    Long requestId;
 
 }
