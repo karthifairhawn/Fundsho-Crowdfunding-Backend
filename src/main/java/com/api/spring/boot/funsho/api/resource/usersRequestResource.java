@@ -11,7 +11,7 @@ import com.api.spring.boot.funsho.api.entity.users;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
-import com.api.spring.boot.funsho.api.exceptions.notAcceptable;
+import com.api.spring.boot.funsho.api.exceptions.notAcceptableException;
 import com.api.spring.boot.funsho.api.exceptions.unauthorizedException;
 import com.api.spring.boot.funsho.api.exceptions.userNotFoundException;
 import com.api.spring.boot.funsho.api.repository.transactionRepository;
@@ -161,7 +161,7 @@ public class usersRequestResource {
         wallet userWallet = WalletRepository.findByUserId(user.getUserId());
         if(userWallet == null) throw new userNotFoundException("User Wallet is locked contact admin");
 
-        if(userWallet.getBalance() < obj.getDonationAmount()) throw new notAcceptable("Insufficient Funds");
+        if(userWallet.getBalance() < obj.getDonationAmount()) throw new notAcceptableException("Insufficient Funds");
 
         userWallet.setBalance(userWallet.getBalance() - obj.getDonationAmount());
         usersRequest.setAmountRecieved(usersRequest.getAmountRecieved()+obj.getDonationAmount());
