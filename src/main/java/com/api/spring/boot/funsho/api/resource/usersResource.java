@@ -233,7 +233,11 @@ public class usersResource {
         return LoginDataRepository.findByUserId(userId);            
     }
 
-    
+    @GetMapping("/users/{id}/donations")
+    public List<transaction> getDonations(@PathVariable Long id){
+        wallet userWallet = WalletRepository.findByUserId(id);
+        return userWallet.getTransaction();    
+    }
 
     public FilterProvider privateUserFilter(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
