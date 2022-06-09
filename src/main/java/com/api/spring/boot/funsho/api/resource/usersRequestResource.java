@@ -175,6 +175,8 @@ public class usersRequestResource {
         t.setTransactionDescription(obj.getDonationDescription());
         t.setTransactionStatus("Success");      
 
+        userWallet.getTransaction().add(t);
+
         WalletRepository.save(userWallet);
         UsersRequestRepository.save(usersRequest);
         TransactionRepository.save(t);
