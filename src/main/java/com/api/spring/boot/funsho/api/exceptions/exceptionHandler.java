@@ -35,7 +35,7 @@ public class exceptionHandler extends ResponseEntityExceptionHandler {
         return new ResponseEntity(er, HttpStatus.UNAUTHORIZED);
     }
 
-    @ExceptionHandler(unauthorizedException.class)
+    @ExceptionHandler(notAcceptableException.class)
     public final ResponseEntity<Object> notAcceptableException(Exception ex, WebRequest request) throws Exception {
         ExceptionResponse er = new ExceptionResponse(new Date(),ex.getMessage(),request.getDescription(false));
         return new ResponseEntity(er, HttpStatus.NOT_ACCEPTABLE);
