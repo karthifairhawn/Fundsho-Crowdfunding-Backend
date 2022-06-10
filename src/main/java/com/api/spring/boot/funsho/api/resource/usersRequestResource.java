@@ -96,7 +96,7 @@ public class usersRequestResource {
     public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){
         
         if(featured){
-            return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes"))).getContent();
+            return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes").descending())).getContent();
         }
         else{
             return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes").descending())).getContent();
