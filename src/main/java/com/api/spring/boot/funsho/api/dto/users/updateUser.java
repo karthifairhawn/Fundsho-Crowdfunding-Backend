@@ -11,7 +11,8 @@ public class updateUser {
     Date dob;
     String email;
     String phNumber;    
-    String password;
+    String oldPassword;
+    String newPassword;
     String username;
     Boolean changePassword;
 }

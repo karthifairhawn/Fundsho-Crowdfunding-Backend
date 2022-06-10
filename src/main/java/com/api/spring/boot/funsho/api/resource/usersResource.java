@@ -15,6 +15,7 @@ import com.api.spring.boot.funsho.api.entity.auth.loginData;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
+import com.api.spring.boot.funsho.api.exceptions.unauthorizedException;
 import com.api.spring.boot.funsho.api.exceptions.userNotFoundException;
 import com.api.spring.boot.funsho.api.repository.loginDataRepository;
 import com.api.spring.boot.funsho.api.repository.transactionRepository;
@@ -126,9 +127,11 @@ public class usersResource {
         if(user==null) throw new userNotFoundException("User Not Found");
 
         if(user.getSessionKey()!=sessionKey) throw new userNotFoundException("User Not Found");
-                
-        if(updatingUser.getChangePassword()){            
-            user.setPassword(updatingUser.getPassword());            
+        if(!user.getPassword().equals(updatingUser.getOldPassword())) throw new unauthorizedException("Old password and new password do not match");
+        
+
+        if(updatingUser.getChangePassword()){                        
+            user.setPassword(updatingUser.getNewPassword());            
             UserRepository.save(user);
         }else{            
             user.setFname(updatingUser.getFname());
