@@ -29,5 +29,6 @@ public class transaction {
     Date transactionDateTime;
     String transactionStatus; 
     Long requestId;
+    Long userId;
 
 }

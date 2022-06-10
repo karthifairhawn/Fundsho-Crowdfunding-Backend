@@ -1,5 +1,6 @@
 package com.api.spring.boot.funsho.api.resource;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 // import java.util.Map;
@@ -7,6 +8,7 @@ import java.util.List;
 import com.api.spring.boot.funsho.api.dto.requests.donateDTO;
 import com.api.spring.boot.funsho.api.dto.requests.newReqDTO;
 import com.api.spring.boot.funsho.api.dto.requests.updateRequestDTO;
+import com.api.spring.boot.funsho.api.dto.users.singleDonation;
 import com.api.spring.boot.funsho.api.entity.users;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
@@ -173,7 +175,8 @@ public class usersRequestResource {
         t.setTransactionDateTime(new Date());
         t.setRequestId(usersRequest.getRequestId());
         t.setTransactionDescription(obj.getDonationDescription());
-        t.setTransactionStatus("Success");      
+        t.setTransactionStatus("Success");    
+        t.setUserId(user.getUserId());  
 
         userWallet.getTransaction().add(t);
 
@@ -188,11 +191,25 @@ public class usersRequestResource {
 
 
     @GetMapping("/requests/{id}/donations")
-    public List<transaction> getDonations(@PathVariable("id") Long id){        
+    public List<singleDonation> getDonations(@PathVariable("id") Long id){        
         usersRequest usersRequest = UsersRequestRepository.findByRequestId(id);
         if(usersRequest == null) throw new userNotFoundException("Request Not Found");
         
-        return TransactionRepository.findByRequestId(id);
+        List<transaction> allTransactions = TransactionRepository.findByRequestId(id);
+
+        List<singleDonation> allDonations = new ArrayList<singleDonation>();
+
+        for(transaction tx : allTransactions){
+            singleDonation sd = new singleDonation();
+            sd.setAmount(tx.getTransactionAmount());
+            sd.setDescription(tx.getTransactionDescription());
+            sd.setDateTime(tx.getTransactionDateTime());
+            sd.setDonorId(tx.getUserId());
+            sd.setDonorName(UserRepository.findByUserId(tx.getUserId()).getFname()+UserRepository.findByUserId(tx.getUserId()).getLname() );                        
+            allDonations.add(sd);
+        }
+
+        return allDonations;
     }
 
     
