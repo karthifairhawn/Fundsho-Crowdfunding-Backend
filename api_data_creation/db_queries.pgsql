@@ -2,6 +2,7 @@ DELETE from "users_request" where 1=1
 DELETE from "wallet" where 1=1
 DELETE from "login_data" where 1=1
 DELETE from "users" where 1=1
+DELETE FROM transaction where 1=1
 
 UPDATE wallet set balance=100000 where user_id = 805
 

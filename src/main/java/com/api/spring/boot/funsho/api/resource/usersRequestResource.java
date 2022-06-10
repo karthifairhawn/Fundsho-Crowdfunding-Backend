@@ -181,8 +181,7 @@ public class usersRequestResource {
         userWallet.getTransaction().add(t);
 
         WalletRepository.save(userWallet);
-        UsersRequestRepository.save(usersRequest);
-        TransactionRepository.save(t);
+        UsersRequestRepository.save(usersRequest);        
 
 
         return ResponseEntity.status(HttpStatus.ACCEPTED).body("Donation Successful");
