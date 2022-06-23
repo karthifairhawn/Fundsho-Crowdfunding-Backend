@@ -53,7 +53,7 @@ public class users {
     @Column(length = 500)
     String bio;
 
-    int role;
+    Long role;
     
 
     @OneToOne(
