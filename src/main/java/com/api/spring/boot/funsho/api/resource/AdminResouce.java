@@ -49,13 +49,13 @@ public class AdminResouce {
     }
 
     @GetMapping("/admin/users/{userId}/wallet")
-    public wallet getWallet(@PathVariable("id") int userId,@RequestParam("sessionKey") String sessionKey){
+    public wallet getWallet(@PathVariable int userId,@RequestParam("sessionKey") String sessionKey){
         return WalletRepository.findByUserId(userId);
     }
 
     @GetMapping("/admin/users/{userId}/donations")
-    public List<transaction> getDonations(@PathVariable Long id,@RequestParam("sessionKey") String sessionKey){
-        wallet userWallet = WalletRepository.findByUserId(id);
+    public List<transaction> getDonations(@PathVariable Long userId,@RequestParam("sessionKey") String sessionKey){
+        wallet userWallet = WalletRepository.findByUserId(userId);
         return userWallet.getTransaction();    
     }
 
@@ -64,7 +64,7 @@ public class AdminResouce {
         return UsersRequestRepository.findByUserId(userId);
     }
 
-    @DeleteMapping("/admin/users/{userId}/requests/id")
+    @DeleteMapping("/admin/users/{requestId}/requests/id")
     public void deleteRequests(@PathVariable Long requestId,@RequestParam("sessionKey") String sessionKey){
         UsersRequestRepository.deleteById(requestId);
     }
