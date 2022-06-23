@@ -14,4 +14,5 @@ public class createUser{
     String password;
     String username; 
     String avatarUrl;   
+    String bio;
 }

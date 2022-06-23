@@ -32,7 +32,8 @@ public class users {
         this.phNumber = newUser.getPhNumber();
         this.dob = newUser.getDob();
         this.username = newUser.getUsername();    
-        this.avatarUrl = newUser.getAvatarUrl();    
+        this.avatarUrl = newUser.getAvatarUrl();   
+        this.bio = newUser.getBio(); 
     }
 
 
