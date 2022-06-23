@@ -54,11 +54,6 @@ public class usersResource {
     //     this.request = request;
     // }
 
-    // @GetMapping("/googlesingup/{id}")
-    // public void googleSingUp(@PathVariable String id){
-    //     System.out.println(id);
-    // }
-
 
     // @GetMapping("/hello")
     // public ResponseEntity<String> listAllHeaders(
@@ -236,15 +231,16 @@ public class usersResource {
         return LoginDataRepository.findByUserId(userId);            
     }
 
-    @GetMapping("/users/{id}/donations")
+    @GetMapping("/users/{userId}/donations")
     public List<transaction> getDonations(@PathVariable Long id){
         wallet userWallet = WalletRepository.findByUserId(id);
         return userWallet.getTransaction();    
     }
 
+    
     public FilterProvider privateUserFilter(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","dob","email","phNumber","username","userId","sessionKey","avatarUrl"
+            "fname","lname","dob","email","phNumber","username","userId","sessionKey","avatarUrl","bio"
         );
 
         FilterProvider filters = new SimpleFilterProvider().addFilter("userFilter", filter);        
@@ -253,7 +249,7 @@ public class usersResource {
     
     public FilterProvider publicUserFilter(){       
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","email","username","userId","avatarUrl"
+            "fname","lname","email","username","userId","avatarUrl","bio"
         );
         FilterProvider filters = new SimpleFilterProvider().addFilter("userFilter", filter);        
         return filters;
