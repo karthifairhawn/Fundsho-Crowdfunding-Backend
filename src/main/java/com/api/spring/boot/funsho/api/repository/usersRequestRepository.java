@@ -24,7 +24,7 @@ public interface usersRequestRepository extends JpaRepository<usersRequest,Long>
 
     List<usersRequest> findByUserId(Long userId);
 
-    @Query("select s from usersRequest u where u.reqStatus = ?1")
+    @Query(value="select * from users_request where req_status = ?1",nativeQuery=true)
     List<usersRequest> findByReqStatusIs(Long i);
 
     
