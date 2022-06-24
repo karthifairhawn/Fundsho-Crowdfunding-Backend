@@ -94,18 +94,9 @@ public class usersRequestResource {
         return usersRequest;
     }
     
-    @GetMapping("/requests") 
-    public List<usersRequest> getUsersRequests(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){
-        
-        if(featured){
-            return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes").descending())).getContent();
-        }
-        else{
-            return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes").descending())).getContent();
-        }           
-    } 
 
-    @GetMapping("/requests/new") 
+
+    @GetMapping("/requests") 
     public List<usersRequest> getUsersRequests1(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){
         
         if(featured){
