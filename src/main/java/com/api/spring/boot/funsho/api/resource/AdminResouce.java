@@ -8,9 +8,11 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.api.spring.boot.funsho.api.entity.users;
 import com.api.spring.boot.funsho.api.entity.requestsEntity.usersRequest;
 import com.api.spring.boot.funsho.api.entity.wallet.transaction;
 import com.api.spring.boot.funsho.api.entity.wallet.wallet;
@@ -67,6 +69,13 @@ public class AdminResouce {
     @DeleteMapping("/admin/users/{requestId}/requests/id")
     public void deleteRequests(@PathVariable Long requestId,@RequestParam("sessionKey") String sessionKey){
         UsersRequestRepository.deleteById(requestId);
+    }
+
+    @PutMapping("/admin/users/{userId}/blocked")
+    public void putBlockedUser(@PathVariable Long userId,@RequestParam("blockStatus") Long blockStatus,@RequestParam("sessionKey") String sessionKey){
+        users User = UserRepository.findByUserId(userId);
+        User.setBlocked(blockStatus);
+        UserRepository.save(User);
     }
 
 

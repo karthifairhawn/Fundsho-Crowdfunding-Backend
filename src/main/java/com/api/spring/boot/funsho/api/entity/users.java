@@ -56,6 +56,7 @@ public class users {
 
     Long role;
     
+    Long blocked;
 
     @OneToOne(
         mappedBy = "user"
