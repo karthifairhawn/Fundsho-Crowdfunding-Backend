@@ -67,6 +67,8 @@ public class usersRequest {
     @Column(length = 500)
     String eventDescription;
 
+    Long reqStatus;
+
     
 
 
