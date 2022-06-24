@@ -84,7 +84,7 @@ public class AdminResouce {
 
     public FilterProvider privateUserFilter(){
         SimpleBeanPropertyFilter filter = SimpleBeanPropertyFilter.filterOutAllExcept(
-            "fname","lname","dob","email","phNumber","username","userId","sessionKey","avatarUrl"
+            "fname","lname","dob","email","phNumber","username","userId","sessionKey","avatarUrl","role","blocked"
         );
 
         FilterProvider filters = new SimpleFilterProvider().addFilter("userFilter", filter);        
