@@ -112,7 +112,7 @@ public class usersRequestResource {
             return UsersRequestRepository.findByReqStatusIs(1l,size,page);
         }
         else{
-            return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes").descending())).getContent();
+            return UsersRequestRepository.findByReqStatusIsNonFeatured(1l,size,page);
         }           
     } 
 
