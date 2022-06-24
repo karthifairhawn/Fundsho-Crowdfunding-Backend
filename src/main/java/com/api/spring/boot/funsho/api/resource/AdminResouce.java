@@ -78,7 +78,11 @@ public class AdminResouce {
         UserRepository.save(User);
     }
 
-
+    // FUdnaraises
+    @GetMapping("/admin/requests")
+    public List<usersRequest> allReqUsersRequests(){
+        return UsersRequestRepository.findAll();
+    }
     
 
 

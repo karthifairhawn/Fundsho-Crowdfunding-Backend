@@ -105,6 +105,17 @@ public class usersRequestResource {
         }           
     } 
 
+    @GetMapping("/requests/new") 
+    public List<usersRequest> getUsersRequests1(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){
+        
+        if(featured){
+            return UsersRequestRepository.findByReqStatusIs(1l);
+        }
+        else{
+            return UsersRequestRepository.findAll(PageRequest.of(page, size, Sort.by("votes").descending())).getContent();
+        }           
+    } 
+
 
     @GetMapping("/requests/{id}")
     public usersRequest getUsersRequestsById(@PathVariable("id") Long id){
