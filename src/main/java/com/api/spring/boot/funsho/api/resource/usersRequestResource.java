@@ -100,10 +100,10 @@ public class usersRequestResource {
     public List<usersRequest> getUsersRequests1(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){
         
         if(featured){
-            return UsersRequestRepository.findByReqStatusIs(1l,size,page);
+            return UsersRequestRepository.findByReqStatusIs(1l,size,(page*size)-size);
         }
         else{
-            return UsersRequestRepository.findByReqStatusIsNonFeatured(1l,size,page);
+            return UsersRequestRepository.findByReqStatusIsNonFeatured(1l,size,(page*size)-size);
         }           
     } 
 
