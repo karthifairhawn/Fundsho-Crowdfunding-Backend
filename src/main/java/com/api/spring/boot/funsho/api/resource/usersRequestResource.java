@@ -171,7 +171,7 @@ public class usersRequestResource {
 
         userWallet.setBalance(userWallet.getBalance() - obj.getDonationAmount());
         usersRequest.setAmountRecieved(usersRequest.getAmountRecieved()+obj.getDonationAmount());
-        if(usersRequest.getAmountRecieved()-usersRequest.getAmountRecieved()==0) usersRequest.setReqStatus(0l);
+        if(usersRequest.getAmountRecieved()-usersRequest.getAmountRecieved()==0) usersRequest.setReqStatus(2l);
 
         transaction t = new transaction();
 
