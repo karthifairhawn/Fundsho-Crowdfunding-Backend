@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -80,10 +82,15 @@ public class AdminResouce {
 
     // FUdnaraises
 
-    @PutMapping("/admin/{requestId}/status") //Set the request status 0-blocked 1-active 2-succeeded 3-userWithdrawn 4-Expired 
+    @PutMapping("/admin/requests/{requestId}/status") //Set the request status 0-blocked 1-active 2-succeeded 3-userWithdrawn 4-Expired 
     public void updateRequestStatus(@PathVariable("requestId") Long requestId,@RequestParam("status") Long status,@RequestParam("sessionKey") String sessionKey){
         int updateStatus = UsersRequestRepository.updateRequestStatus(status,requestId);                
         System.out.println(updateStatus);        
+    }
+
+    @RequestMapping(value = "/admin/requests/{requestId}/status",method = RequestMethod.OPTIONS)
+    public void updateRequestStatus(@PathVariable("requestId") Long requestId){
+        ;
     }
     
 

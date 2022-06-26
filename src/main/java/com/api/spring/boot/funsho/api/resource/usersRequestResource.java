@@ -5,6 +5,19 @@ import java.util.Date;
 import java.util.List;
 // import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.api.spring.boot.funsho.api.dto.requests.donateDTO;
 import com.api.spring.boot.funsho.api.dto.requests.newReqDTO;
 import com.api.spring.boot.funsho.api.dto.requests.updateRequestDTO;
@@ -20,21 +33,6 @@ import com.api.spring.boot.funsho.api.repository.transactionRepository;
 import com.api.spring.boot.funsho.api.repository.userRepository;
 import com.api.spring.boot.funsho.api.repository.usersRequestRepository;
 import com.api.spring.boot.funsho.api.repository.walletRepository;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
 
 
 
@@ -154,8 +152,13 @@ public class usersRequestResource {
     @PostMapping("/requests/{id}/donate")
     public ResponseEntity<String> donate(@PathVariable("id") Long id,@RequestBody donateDTO obj,@RequestParam("sessionKey") String sessionKey){      
 
+
         usersRequest usersRequest = UsersRequestRepository.findByRequestId(id);
         if(usersRequest == null) throw new userNotFoundException("Request Not Found");
+        if(usersRequest.getReqStatus()==0) throw new unauthorizedException("The request is closed.");
+        if(usersRequest.getReqStatus()==2) throw new unauthorizedException("The request recieved enough money.");
+        if(usersRequest.getReqStatus()==3) throw new unauthorizedException("The user is stopped accepting money to this request.");
+
 
         users user = UserRepository.findBySessionKey(sessionKey);
         if(user == null) throw new userNotFoundException("User Not Found for this sessionKey");
