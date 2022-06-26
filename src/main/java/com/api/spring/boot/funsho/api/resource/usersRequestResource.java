@@ -166,9 +166,12 @@ public class usersRequestResource {
         if(userWallet == null) throw new userNotFoundException("User Wallet is locked contact admin");
 
         if(userWallet.getBalance() < obj.getDonationAmount()) throw new notAcceptableException("Insufficient Funds");
+        if(usersRequest.getAmountRequired()-usersRequest.getAmountRecieved() < obj.getDonationAmount()) throw new notAcceptableException("Donating more than enough, Donate only need amount.. :|");
+
 
         userWallet.setBalance(userWallet.getBalance() - obj.getDonationAmount());
         usersRequest.setAmountRecieved(usersRequest.getAmountRecieved()+obj.getDonationAmount());
+        if(usersRequest.getAmountRecieved()-usersRequest.getAmountRecieved()==0) usersRequest.setReqStatus(0l);
 
         transaction t = new transaction();
 
