@@ -82,7 +82,7 @@ public class AdminResouce {
 
     @PutMapping("/admin/{requestId}/status") //Set the request status 0-blocked 1-active 2-succeeded 3-userWithdrawn 4-Expired 
     public void updateRequestStatus(@PathVariable("requestId") Long requestId,@RequestParam("status") Long status,@RequestParam("sessionKey") String sessionKey){
-        int updateStatus = UsersRequestRepository.updateRequestStatus(requestId, status);                
+        int updateStatus = UsersRequestRepository.updateRequestStatus(status,requestId);                
         System.out.println(updateStatus);        
     }
     
