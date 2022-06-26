@@ -176,10 +176,10 @@ public class usersRequestResource {
         transaction t = new transaction();
 
         t.setTransactionAmount(obj.getDonationAmount());
-        t.setTransactionType("Donation from wallet");
+        t.setTransactionType("Donated to request "+usersRequest.getRequestId());
         t.setTransactionDateTime(new Date());
         t.setRequestId(usersRequest.getRequestId());
-        t.setTransactionDescription(obj.getDonationDescription());
+        t.setTransactionDescription(obj.getDonationDescription().equals("") ? "Good luck" : obj.getDonationDescription());
         t.setTransactionStatus("Success");    
         t.setUserId(user.getUserId());  
 
@@ -209,7 +209,8 @@ public class usersRequestResource {
             sd.setDescription(tx.getTransactionDescription());
             sd.setDateTime(tx.getTransactionDateTime());
             sd.setDonorId(tx.getUserId());
-            sd.setDonorName(UserRepository.findByUserId(tx.getUserId()).getFname()+UserRepository.findByUserId(tx.getUserId()).getLname() );                        
+            String donor = UserRepository.findFnameByUserId(tx.getUserId());
+            sd.setDonorName(donor);                        
             allDonations.add(sd);
         }
 
