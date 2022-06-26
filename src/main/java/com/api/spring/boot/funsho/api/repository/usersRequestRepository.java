@@ -35,7 +35,7 @@ public interface usersRequestRepository extends JpaRepository<usersRequest,Long>
     @Modifying
     @Transactional
     @Query(
-    value="update users_request set req_status = ?1 where request_id = ?1",
+    value="update users_request set req_status = ?1 where request_id = ?2",
     nativeQuery = true
     )
     int updateRequestStatus(Long status,Long requestId);
