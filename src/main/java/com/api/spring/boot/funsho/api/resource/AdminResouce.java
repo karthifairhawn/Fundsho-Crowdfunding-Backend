@@ -71,7 +71,7 @@ public class AdminResouce {
         UsersRequestRepository.deleteById(requestId);
     }
 
-    @PutMapping("/admin/users/{userId}/blocked")
+    @PutMapping("/admin/users/{userId}/status")
     public void putBlockedUser(@PathVariable Long userId,@RequestParam("blockStatus") Long blockStatus,@RequestParam("sessionKey") String sessionKey){
         users User = UserRepository.findByUserId(userId);
         User.setBlocked(blockStatus);
@@ -79,10 +79,7 @@ public class AdminResouce {
     }
 
     // FUdnaraises
-    @GetMapping("/admin/requests")
-    public List<usersRequest> allReqUsersRequests(){
-        return UsersRequestRepository.findAll();
-    }
+    
     
 
 
