@@ -45,6 +45,12 @@ public class AdminResouce {
         return mapping;
     }
 
+    @GetMapping("/requests/pending") 
+    public List<usersRequest> getUsersRequests2(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){                
+        return UsersRequestRepository.findByReqStatusIsNonFeatured(0l,size,(page*size)-size);        
+    } 
+
+
     @GetMapping("/admin/users/{userId}")
     public MappingJacksonValue getUser(@PathVariable Long userId,@RequestParam("sessionKey") String sessionKey){
         MappingJacksonValue mapping = new MappingJacksonValue(UserRepository.findByUserId(userId));

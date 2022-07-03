@@ -29,6 +29,8 @@ public interface usersRequestRepository extends JpaRepository<usersRequest,Long>
     @Query(value="select * from users_request where req_status = ?1 order by votes desc limit ?2 offset ?3",nativeQuery=true)
     List<usersRequest> findByReqStatusIs(Long i,int size,int page);
 
+    
+
     @Query(value="select * from users_request where req_status = ?1 limit ?2 offset ?3",nativeQuery=true)
     List<usersRequest> findByReqStatusIsNonFeatured(Long i,int size,int page);
 
