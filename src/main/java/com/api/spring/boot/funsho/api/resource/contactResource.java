@@ -1,5 +1,6 @@
 package com.api.spring.boot.funsho.api.resource;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +26,7 @@ public class contactResource {
 
     @PostMapping("/contactinfo")
     public Contact saveContactInfo(Contact contact) {
+        contact.setTimestamp(new Date());
         return contactRepository.save(contact);
     }
     

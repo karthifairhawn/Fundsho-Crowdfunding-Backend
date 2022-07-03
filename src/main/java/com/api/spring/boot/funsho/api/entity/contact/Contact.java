@@ -1,5 +1,7 @@
 package com.api.spring.boot.funsho.api.entity.contact;
 
+import java.util.Date;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -22,5 +24,7 @@ public class Contact {
 
     @Column(length =500)
     String data;
+
+    Date timestamp;
 
 }
