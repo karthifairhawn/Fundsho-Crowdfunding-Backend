@@ -45,9 +45,9 @@ public class AdminResouce {
         return mapping;
     }
 
-    @GetMapping("/requests/pending") 
-    public List<usersRequest> getUsersRequests2(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sessionKey") String sessionKey){                
-        return UsersRequestRepository.findByReqStatusIsNonFeatured(0l,size,(page*size)-size);        
+    @GetMapping("/admin/requests") 
+    public List<usersRequest> getUsersRequests2(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("status") Long status, @RequestParam("sessionKey") String sessionKey){                
+        return UsersRequestRepository.findForAdmin(status,size,(page*size)-size);        
     } 
 
 
