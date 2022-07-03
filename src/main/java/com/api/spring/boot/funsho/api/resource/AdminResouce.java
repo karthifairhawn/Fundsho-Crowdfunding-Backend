@@ -46,7 +46,7 @@ public class AdminResouce {
     }
 
     @GetMapping("/requests/pending") 
-    public List<usersRequest> getUsersRequests2(@RequestParam("page") int page, @RequestParam("size") int size,@RequestParam("featured") boolean featured){                
+    public List<usersRequest> getUsersRequests2(@RequestParam("page") int page, @RequestParam("size") int size, @RequestParam("sessionKey") String sessionKey){                
         return UsersRequestRepository.findByReqStatusIsNonFeatured(0l,size,(page*size)-size);        
     } 
 
