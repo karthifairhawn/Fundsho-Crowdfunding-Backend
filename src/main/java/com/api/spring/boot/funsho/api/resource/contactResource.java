@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -25,7 +26,7 @@ public class contactResource {
     }
 
     @PostMapping("/contactinfo")
-    public Contact saveContactInfo(Contact contact) {
+    public Contact saveContactInfo(@RequestBody Contact contact) {
         contact.setTimestamp(new Date());
         return contactRepository.save(contact);
     }
